@@ -1,36 +1,56 @@
-// import * as id3 from 'id3js';
-import * as NodeID3  from 'node-id3'
+// import *
+const fs = require('fs')
+const path =require('path')
+const NodeID3 =  require('node-id3')
 
-/* Variables found in the following usage examples */
+const track = 'Adalberto Alvarez - Deja La Mala Noche.mp3'
+const directory = '/home/jsdev/Music/bacha4/'
 
-const filepath = './adi.mp3'
-
-async function getTrackTags(fullAdress){
-    return await id3.fromPath('./adi.mp3')
+function backup_filenameAndTags(directory, file){
+    let fullname =path.join(directory,file)
+    let tags = NodeID3.read(fullname)
+    tags.performerInfo = tags.title+'|'+tags.artist+'|' + tags.album + '|' + file
+    if (tags.title.length<3){tags.title=file.toLowerCase()}
+    tags.composer = tags.title
+    const success = NodeID3.write(tags, fullname)
+    return success
 }
 
-const filebuffer = Buffer.allocUnsafe(100)
-
-let tags = {
-    title: "Tomorrow",
-    artist: "Kevin Penkin",
-    album: "TVアニメ「メイドインアビス」オリジナルサウンドトラック",
-    TRCK: "27"
-}
-const success = NodeID3.write(tags, filepath)
-
-if (success) {
-    tags = NodeID3.read(filepath)
-    console.log(JSON.stringify(tags) )
+function renameAndReTitleTrack(directory, file){
+    let fullname =path.join(directory,file)
+    let tags = NodeID3.read(fullname)
+    tags.title = (tags.album+'-'+tags.composer).toLowerCase()
+    const success = NodeID3.write(tags, fullname)
+    fs.renameSync(fullname,path.join(directory,tags.title+'.mp3'))
 }
 
+function filterComplexTags(tags) {
+    let rez = {}
+    for (var prop in tags) {
+        if (typeof tags[prop] !== 'string') {
+            continue
+        }
+        rez[prop] = tags[prop]
+    }
+    return rez
+}
 
+function iterateOnFiles(dir, operation=backup_filenameAndTags){
+    const files = fs.readdirSync(dir);
+    let c=1
+    for (let i in files){
+        c++
+        let shortFileName = files[i]
+        if (shortFileName.slice(-4)!=='.mp3'){continue}
+        console.log(shortFileName)
+        operation(dir, shortFileName)
 
+        // let fullFileName = dir + '/' + shortFileName;
+        // let tags = NodeID3.read(fullFileName)
+        // console.log(shortFileName, JSON.stringify(filterComplexTags(tags)))
+    }
+}
 
-// async option
-// NodeID3.read(filepath, function(err, tags) {
-//     console.log(tags)
-// })
+iterateOnFiles(directory,renameAndReTitleTrack)
+// let tags = NodeID3.read(filepath);console.log(JSON.stringify(tags));
 
-// const tags = await getTrackTags('./adi.mp3')
-// console.log(tags )

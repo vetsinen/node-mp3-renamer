@@ -1,0 +1,26 @@
+{
+  "title": "Yesterday",
+  "artist": "Kevin Penkin",
+  "album": "planet album",
+  "trackNumber": "27",
+  "genre": "gente5",
+  "composer": "compo3",
+  "originalArtist": "perfo4",
+  "unsynchronisedLyrics": {
+    "language": "XXX"
+  },
+  "performerInfo": "alb2",
+  "raw": {
+    "TIT2": "Yesterday",
+    "TPE1": "Kevin Penkin",
+    "TALB": "planet album",
+    "TRCK": "27",
+    "TCON": "gente5",
+    "TCOM": "compo3",
+    "TOPE": "perfo4",
+    "USLT": {
+      "language": "XXX"
+    },
+    "TPE2": "alb2"
+  }
+}
