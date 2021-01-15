@@ -2,9 +2,35 @@
 const fs = require('fs')
 const path =require('path')
 const NodeID3 =  require('node-id3')
+const Lame = require("node-lame").Lame;
+
 
 const track = 'Adalberto Alvarez - Deja La Mala Noche.mp3'
-const directory = '/home/jsdev/Music/bacha4/'
+const directory = '/home/jsdev/Music/bacha5/'
+
+iterateOnFiles(directory,encodeToRegularBitrate)
+
+async function iterateOnFiles(dir, operation=backup_filenameAndTags){
+    const files = fs.readdirSync(dir);
+    let c=1
+    let shortNames = []
+    for (let i in files){
+        c++
+        let shortFileName = files[i]
+        if (shortFileName.slice(-4)!=='.mp3'){continue}
+        //console.log(shortFileName)
+        if (operation!==encodeToRegularBitrate){
+            operation(dir, shortFileName)
+        }
+        else {
+            shortNames.push(shortFileName)
+        }
+    }
+    if (operation===encodeToRegularBitrate){
+        encodeToRegularBitrate(dir, shortNames)
+        console.log('encoded')
+    }
+}
 
 function backup_filenameAndTags(directory, file){
     let fullname =path.join(directory,file)
@@ -24,6 +50,26 @@ function renameAndReTitleTrack(directory, file){
     fs.renameSync(fullname,path.join(directory,tags.title+'.mp3'))
 }
 
+async function encodeToRegularBitrate(directory, files, bitrate = 128){
+    const directoryOut = directory+'out/'
+    fs.rmdirSync(directoryOut, { recursive: true })
+    console.log(`${directoryOut} is deleted!`)
+    fs.mkdirSync(directoryOut)
+
+    console.log(files)
+    let encoders = []
+    for (let i in files){
+        encoders.push(
+            new Lame({
+                output: directoryOut + files[i],
+                bitrate: bitrate
+            }).setFile(directory + files[i]).encode()
+        )
+    }
+
+    Promise.all(encoders).then(rez=>console.log(encoders))
+}
+
 function filterComplexTags(tags) {
     let rez = {}
     for (var prop in tags) {
@@ -35,22 +81,6 @@ function filterComplexTags(tags) {
     return rez
 }
 
-function iterateOnFiles(dir, operation=backup_filenameAndTags){
-    const files = fs.readdirSync(dir);
-    let c=1
-    for (let i in files){
-        c++
-        let shortFileName = files[i]
-        if (shortFileName.slice(-4)!=='.mp3'){continue}
-        console.log(shortFileName)
-        operation(dir, shortFileName)
 
-        // let fullFileName = dir + '/' + shortFileName;
-        // let tags = NodeID3.read(fullFileName)
-        // console.log(shortFileName, JSON.stringify(filterComplexTags(tags)))
-    }
-}
-
-iterateOnFiles(directory,renameAndReTitleTrack)
 // let tags = NodeID3.read(filepath);console.log(JSON.stringify(tags));
 
