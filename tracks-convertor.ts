@@ -4,16 +4,15 @@ const path =require('path')
 const NodeID3 =  require('node-id3')
 const Lame = require("node-lame").Lame;
 
-const track = 'Adalberto Alvarez - Deja La Mala Noche.mp3'
-let directory = '/home/jsdev/Music/bacha5/'
+let directory: string = '/home/jsdev/Music/bacha5/'
 directory = '/home/jsdev/Downloads/Telegram Desktop/'
 
 iterateOnFiles(directory,encodeToRegularBitrate)
 
-async function iterateOnFiles(dir, operation=backup_filenameAndTags){
+async function iterateOnFiles(dir: string, operation: any=backup_filenameAndTags){
     const files = fs.readdirSync(dir);
-    let c=1
-    let shortNames = []
+    let c: number=1
+    let shortNames: Array<string> = []
     for (let i in files){
         c++
         let shortFileName = files[i]
@@ -32,8 +31,8 @@ async function iterateOnFiles(dir, operation=backup_filenameAndTags){
     }
 }
 
-function backup_filenameAndTags(directory, file){
-    let fullname =path.join(directory,file)
+function backup_filenameAndTags(directory: string, file: string){
+    let fullname: string =path.join(directory,file)
     let tags = NodeID3.read(fullname)
     tags.performerInfo = tags.title+'|'+tags.artist+'|' + tags.album + '|' + file
     if ((tags.hasOwnProperty('title')) && tags.title.length<3){tags.title=file.toLowerCase()}
