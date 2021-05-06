@@ -5,9 +5,13 @@ const path = require('path');
 const NodeID3 = require('node-id3');
 const Lame = require("node-lame").Lame;
 const track = 'Adalberto Alvarez - Deja La Mala Noche.mp3';
-let directory = '/home/jsdev/Music/bacha5/';
+
+let directory
 directory = '/home/jsdev/Downloads/Telegram Desktop/';
-iterateOnFiles(directory, encodeToRegularBitrate);
+directory = '/home/jsdev/Music/Ассорти красивой музыки/';
+
+iterateOnFiles(directory, renameAndReTitleTrack);
+
 async function iterateOnFiles(dir, operation = backup_filenameAndTags) {
     const files = fs.readdirSync(dir);
     let c = 1;
@@ -15,10 +19,10 @@ async function iterateOnFiles(dir, operation = backup_filenameAndTags) {
     for (let i in files) {
         c++;
         let shortFileName = files[i];
-        if (shortFileName.slice(-4) !== '.mp3') {
+        if (shortFileName.slice(-4).toLowerCase() !== '.mp3') {
             continue;
         }
-        //console.log(shortFileName)
+        console.log(shortFileName)
         if (operation !== encodeToRegularBitrate) {
             operation(dir, shortFileName);
         }
@@ -31,20 +35,23 @@ async function iterateOnFiles(dir, operation = backup_filenameAndTags) {
         console.log('encoded');
     }
 }
+
 function backup_filenameAndTags(directory, file) {
     let fullname = path.join(directory, file);
     let tags = NodeID3.read(fullname);
     tags.performerInfo = tags.title + '|' + tags.artist + '|' + tags.album + '|' + file;
-    if ((tags.hasOwnProperty('title')) && tags.title.length < 3) {
+    if (!tags.hasOwnProperty('title') || (tags.hasOwnProperty('title')) && tags.title.length < 3) {
         tags.title = file.toLowerCase();
     }
-    tags.composer = tags.title;
+    tags.composer = tags.title.toLowerCase()+' - '+tags.artist.toLowerCase();
     const success = NodeID3.write(tags, fullname);
     return success;
 }
 function renameAndReTitleTrack(directory, file) {
     let fullname = path.join(directory, file);
     let tags = NodeID3.read(fullname);
+    tags.composer = tags.composer.toLowerCase()
+    tags.artist = tags.artist.toLowerCase();
     tags.title = (tags.album + '-' + tags.composer).toLowerCase();
     const success = NodeID3.write(tags, fullname);
     fs.renameSync(fullname, path.join(directory, tags.title + '.mp3'));
