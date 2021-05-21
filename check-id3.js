@@ -5,10 +5,14 @@ const NodeID3 =  require('node-id3')
 const Lame = require("node-lame").Lame;
 
 const track = 'Adalberto Alvarez - Deja La Mala Noche.mp3'
-let directory = '/home/jsdev/Music/bacha5/'
-directory = '/home/jsdev/Downloads/Telegram Desktop/'
+const directory = '/home/jsdev/Music/oleg salsa/'
+// directory = '/home/jsdev/Downloads/Telegram Desktop/'
 
-iterateOnFiles(directory,encodeToRegularBitrate)
+iterateOnFiles(directory,nullaction)
+
+function replaceTrash(newstr){
+    return str.replace(/_/gi, ' ');
+}
 
 async function iterateOnFiles(dir, operation=backup_filenameAndTags){
     const files = fs.readdirSync(dir);
@@ -18,7 +22,7 @@ async function iterateOnFiles(dir, operation=backup_filenameAndTags){
         c++
         let shortFileName = files[i]
         if (shortFileName.slice(-4)!=='.mp3'){continue}
-        //console.log(shortFileName)
+        console.log(shortFileName)
         if (operation!==encodeToRegularBitrate){
             operation(dir, shortFileName)
         }
@@ -31,6 +35,8 @@ async function iterateOnFiles(dir, operation=backup_filenameAndTags){
         console.log('encoded')
     }
 }
+
+function nullaction(dir, file){}
 
 function backup_filenameAndTags(directory, file){
     let fullname =path.join(directory,file)
