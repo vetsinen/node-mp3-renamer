@@ -5,10 +5,10 @@ const NodeID3 =  require('node-id3')
 const Lame = require("node-lame").Lame;
 
 const track = 'Adalberto Alvarez - Deja La Mala Noche.mp3'
-const directory = '/home/jsdev/Music/oleg salsa/'
+const directory = '/home/jsdev/Music/kizomba-nf/'
 // directory = '/home/jsdev/Downloads/Telegram Desktop/'
 
-iterateOnFiles(directory,nullaction)
+iterateOnFiles(directory,renameAndReTitleTrack)
 
 function replaceTrash(newstr){
     return str.replace(/_/gi, ' ');
