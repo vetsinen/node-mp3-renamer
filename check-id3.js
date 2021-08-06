@@ -5,7 +5,7 @@ const NodeID3 =  require('node-id3')
 const Lame = require("node-lame").Lame;
 
 const track = 'Adalberto Alvarez - Deja La Mala Noche.mp3'
-const directory = '/home/jsdev/Music/salsa.fusion/'
+const directory = '/home/jsdev/music.ns/zouka/'
 // directory = '/home/jsdev/Downloads/Telegram Desktop/'
 
 iterateOnFiles(directory,renameAndReTitleTrack)
@@ -43,6 +43,7 @@ function backup_filenameAndTags(directory, file){
     let tags = NodeID3.read(fullname)
     tags.performerInfo = tags.title+'|'+tags.artist+'|' + tags.album + '|' + file
     if ((tags.hasOwnProperty('title')) && tags.title.length<3){tags.title=file.toLowerCase()}
+    if (!tags.hasOwnProperty('title')) tags.title=file.toLowerCase();
     tags.composer = tags.title
     const success = NodeID3.write(tags, fullname)
     return success
