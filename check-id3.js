@@ -5,7 +5,7 @@ const NodeID3 =  require('node-id3')
 const Lame = require("node-lame").Lame;
 
 const track = 'Adalberto Alvarez - Deja La Mala Noche.mp3'
-const directory = '/home/jsdev/music.ns/zouka/'
+const directory = '/home/jsdev/Music/sadda/'
 // directory = '/home/jsdev/Downloads/Telegram Desktop/'
 
 iterateOnFiles(directory,renameAndReTitleTrack)
@@ -21,7 +21,7 @@ async function iterateOnFiles(dir, operation=backup_filenameAndTags){
     for (let i in files){
         c++
         let shortFileName = files[i]
-        if (shortFileName.slice(-4)!=='.mp3'){continue}
+        if (shortFileName.slice(-4).toLowerCase()!=='.mp3'){continue}
         console.log(shortFileName)
         if (operation!==encodeToRegularBitrate){
             operation(dir, shortFileName)
