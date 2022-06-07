@@ -4,14 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "null": "node check-id3.js null"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fabricio-191/youtube": "^0.0.3",
     "node-id3": "^0.2.1",
     "node-lame": "^1.2.2",
-    "ts-node": "^9.1.1"
+    "ts-node": "^9.1.1",
+    "yt-converter": "^1.2.1"
   }
 }

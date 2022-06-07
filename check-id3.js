@@ -4,17 +4,20 @@ const path =require('path')
 const NodeID3 =  require('node-id3')
 const Lame = require("node-lame").Lame;
 
-const track = 'Adalberto Alvarez - Deja La Mala Noche.mp3'
-const directory = '/home/jsdev/Music/sadda/'
-// directory = '/home/jsdev/Downloads/Telegram Desktop/'
-
-iterateOnFiles(directory,renameAndReTitleTrack)
+switch (process.argv[2]) {
+    case 'null':iterateOnFiles(nullaction); break;
+    case 'backup':iterateOnFiles(backup_filenameAndTags); break;
+    case 'rename':iterateOnFiles(renameAndReTitleTrack); break;
+    case 'recode':iterateOnFiles(encodeToRegularBitrate); break;
+    default: console.log('unknown action');
+}
 
 function replaceTrash(newstr){
     return str.replace(/_/gi, ' ');
 }
 
-async function iterateOnFiles(dir, operation=backup_filenameAndTags){
+async function iterateOnFiles(operation=backup_filenameAndTags){
+    const dir = '/home/jsdev/Music/cherk/'
     const files = fs.readdirSync(dir);
     let c=1
     let shortNames = []
@@ -22,7 +25,7 @@ async function iterateOnFiles(dir, operation=backup_filenameAndTags){
         c++
         let shortFileName = files[i]
         if (shortFileName.slice(-4).toLowerCase()!=='.mp3'){continue}
-        console.log(shortFileName)
+        // console.log(shortFileName)
         if (operation!==encodeToRegularBitrate){
             operation(dir, shortFileName)
         }
@@ -57,7 +60,8 @@ function renameAndReTitleTrack(directory, file){
     else
         tags.artist = tags.album
 
-    tags.title = (tags.album+'-'+tags.composer).toLowerCase()
+    console.log(tags.album)
+    tags.title = (tags.genre+'-'+tags.composer).toLowerCase()
     const success = NodeID3.write(tags, fullname)
     fs.renameSync(fullname,path.join(directory,tags.title+'.mp3'))
 }
@@ -91,6 +95,10 @@ function filterComplexTags(tags) {
         rez[prop] = tags[prop]
     }
     return rez
+}
+
+module.exports = {
+    nulliterate: ()=>iterateOnFiles(nullaction())
 }
 
 
