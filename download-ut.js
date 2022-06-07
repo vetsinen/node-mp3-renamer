@@ -8,7 +8,7 @@ const yt = require("yt-converter");
 
 (async () => {
     try {
-        const pl = await getPlaylist('https://www.youtube.com/playlist?list=PLen9XNx4yIl8ePUWbRsgGC69uLjHu9UON');
+        const pl = await getPlaylist('https://www.youtube.com/playlist?list=PLen9XNx4yIl9BVu3Jatat3XHlSxMpeYV7');
         // console.log(pl);
         const vl = pl.videos;
         let cursor = - 1

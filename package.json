@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "null": "node check-id3.js null"
+    "null": "node check-id3.js null",
+    "backup": "node check-id3.js backup",
+    "rename": "node check-id3.js rename",
+    "recode": "node check-id3.js recode"
+
   },
   "keywords": [],
   "author": "",

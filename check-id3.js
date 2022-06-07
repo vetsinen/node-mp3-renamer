@@ -16,8 +16,9 @@ function replaceTrash(newstr){
     return str.replace(/_/gi, ' ');
 }
 
-async function iterateOnFiles(operation=backup_filenameAndTags){
-    const dir = '/home/jsdev/Music/cherk/'
+function iterateOnFiles(operation=backup_filenameAndTags){
+    const dir = '/home/jsdev/Music/bahip/';
+    console.log(dir)
     const files = fs.readdirSync(dir);
     let c=1
     let shortNames = []
@@ -25,7 +26,7 @@ async function iterateOnFiles(operation=backup_filenameAndTags){
         c++
         let shortFileName = files[i]
         if (shortFileName.slice(-4).toLowerCase()!=='.mp3'){continue}
-        // console.log(shortFileName)
+        console.log(shortFileName)
         if (operation!==encodeToRegularBitrate){
             operation(dir, shortFileName)
         }
