@@ -9,16 +9,17 @@
     "backup": "node check-id3.js backup",
     "rename": "node check-id3.js rename",
     "recode": "node check-id3.js recode"
-
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@fabricio-191/youtube": "^0.0.3",
+    "bpm-detective": "^2.0.5",
     "node-id3": "^0.2.1",
     "node-lame": "^1.2.2",
     "ts-node": "^9.1.1",
+    "web-audio-api": "^0.2.2",
     "yt-converter": "^1.2.1"
   }
 }

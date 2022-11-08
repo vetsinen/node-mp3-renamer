@@ -17,7 +17,7 @@ function replaceTrash(newstr){
 }
 
 function iterateOnFiles(operation=backup_filenameAndTags){
-    const dir = '/home/jsdev/Music/bahip/';
+    const dir = '/home/jsdev/Music/bawld/';
     console.log(dir)
     const files = fs.readdirSync(dir);
     let c=1
