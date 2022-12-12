@@ -8,7 +8,7 @@ const yt = require("yt-converter");
 
 (async () => {
     try {
-        const pl = await getPlaylist('https://www.youtube.com/playlist?list=PLen9XNx4yIl8dvwCWDtTaxZC6bcaXSpr6');
+        const pl = await getPlaylist('https://www.youtube.com/watch?v=U4-Eh7vR6AM&list=PL2DKD2ZOeTpikFlkKSNqZK_06YCtpBLWA&index=3');
         // console.log(pl);
         const vl = pl.videos;
         let cursor = -1
@@ -19,6 +19,7 @@ const yt = require("yt-converter");
                 if (cursor < vl.length) {
                     yt.convertAudio({
                         url: vl[cursor].URL,
+                        title: vl[cursor].title,
                         itag: 140,
                         directoryDownload: path.join(__dirname, 'downloads'),
                     }, () => {
